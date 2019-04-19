@@ -38,14 +38,20 @@ func main() {
 	a2 := add2(1)
 	log.Println(a2()) // 3
 
-	var a = 3
+	var a0 = 1
+	closure0 := add2(a0)
+	a0 = 6
+	result0 := closure0()
+	log.Println(result0)
+
+	var a = 6
 	a2r := add2Ref(&a)
-	a = 5
-	log.Println(a2r()) //7
+	a = 9
+	log.Println(a2r()) //11
 
 	a = 3
 	a2r2 := add2Ref2(&a)
-	a = 5
+	a = 9
 	log.Println(a2r2()) //5
 
 	s1 := [...]int{1, 2, 3, 4, 5}
