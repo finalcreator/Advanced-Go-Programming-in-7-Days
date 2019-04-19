@@ -1,18 +1,18 @@
 package main
 
 import (
-	"time"
 	"context"
-	"os/exec"
-	"log"
-	"strings"
 	"fmt"
+	"log"
+	"os/exec"
+	"strings"
+	"time"
 )
 
-type callBackChan chan struct {}
+type callBackChan chan struct{}
 
 //Triggers the callBack channel every d duration units
-func checkEvery(ctx context.Context, d time.Duration, cb callBackChan)  {
+func checkEvery(ctx context.Context, d time.Duration, cb callBackChan) {
 	for {
 		select {
 		case <-ctx.Done():
@@ -20,14 +20,15 @@ func checkEvery(ctx context.Context, d time.Duration, cb callBackChan)  {
 			return
 		case <-time.After(d):
 			// wait for the duration
+			log.Printf("check after %d seconds.", d)
 			if cb != nil {
-				cb <- struct {}{}
+				cb <- struct{}{}
 			}
 		}
 	}
 }
 
-func PrintProcessList()  {
+func PrintProcessList() {
 	psCommand := exec.Command("ps", "a")
 	resp, err := psCommand.CombinedOutput()
 	if err != nil {
@@ -44,22 +45,22 @@ func PrintProcessList()  {
 	}
 }
 
-func main()  {
+func main() {
 	ctx := context.Background()
 	PrintProcessList()
 
 	callBack := make(callBackChan)
-	go checkEvery(ctx, 5 * time.Second, callBack)
+	go checkEvery(ctx, 5*time.Second, callBack)
 	go func() {
 		for {
 			select {
-			case <- callBack:
+			case <-callBack:
+				log.Println("Print Process List.")
 				PrintProcessList()
 			}
 		}
 	}()
 
-	for {
-		time.Sleep(10 * time.Second)
-	}
+	time.Sleep(20 * time.Second)
+
 }
