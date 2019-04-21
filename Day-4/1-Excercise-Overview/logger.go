@@ -1,15 +1,21 @@
 package main
 
 import (
-	"fmt"
-	"sync"
-	"io"
 	"bytes"
+	"fmt"
+	"io"
+	"log"
 	"os"
+	"sync"
 )
+
+func init() {
+	log.SetFlags(log.Lshortfile | log.LstdFlags)
+}
 
 // Define levels
 type Level int
+
 const (
 	LevelDebug Level = iota
 	LevelInfo
@@ -20,16 +26,16 @@ const defaultLogLevel = LevelInfo
 
 // Type Logger represents a logging object that handles log entries based on the current log level
 type Logger struct {
-	mu         sync.Mutex // for serialization
-	prefix     string     // prefix to write at beginning of each log entry
-	Level      Level
-	w          io.Writer    // writer for output
-	buf        bytes.Buffer // internal buffer
+	mu     sync.Mutex // for serialization
+	prefix string     // prefix to write at beginning of each log entry
+	Level  Level
+	w      io.Writer    // writer for output
+	buf    bytes.Buffer // internal buffer
 }
 
 // New creates a new Logger.
 func New(w io.Writer, prefix string) *Logger {
-	return &Logger{w: w, prefix: prefix, Level: defaultLogLevel }
+	return &Logger{w: w, prefix: prefix, Level: defaultLogLevel}
 }
 
 // Console creates a new Logger that outputs to Stderr.
@@ -74,15 +80,20 @@ func (l *Logger) WriteEntry(lvl Level, msg string) error {
 	return nil
 }
 
-func main()  {
-	Console.Info("Hello")
-	Console.Debug("Hello", "Debugger")
-	Console.Error("Error")
-
+func main() {
 	Console.SetLevel(LevelError)
+	Console.Info("info 1")
+	Console.Debug("Debugger 1")
+	Console.Error("Error 1")
 
-	Console.Info("Hello")
-	Console.Debug("Hello", "Debugger")
-	Console.Error("Error")
+	Console.SetLevel(LevelInfo)
+	Console.Info("info 2")
+	Console.Debug("Debugger 2")
+	Console.Error("Error 2")
+
+	Console.SetLevel(LevelDebug)
+	Console.Info("info 3")
+	Console.Debug("Debugger 3")
+	Console.Error("Error 3")
+
 }
-
