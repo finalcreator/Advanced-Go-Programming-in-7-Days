@@ -1,22 +1,21 @@
 package github
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 	"net/http"
 )
 
 const (
 	reposPathWithUser = "users/%v/repos"
-	defaultReposPath = "user/repos"
+	defaultReposPath  = "user/repos"
 )
-
 
 // RepositoriesService handles all the repositories actions
 
 // Github API docs: https://docs.gitlab.com/ce/api/repositories.html
 type RepositoriesService struct {
-	client *Client
+	client *GithubClient
 }
 
 // Repository represents a GitHub repository.
