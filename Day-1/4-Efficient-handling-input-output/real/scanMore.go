@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	input := "abcdefghijkl"
+	//input := "abcdefghijkl"
+	input := ""
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	split := func(data []byte, atEOF bool) (advance int, token []byte, err error) {
 		fmt.Printf("%t\t%d\t%s\n", atEOF, len(data), data)
