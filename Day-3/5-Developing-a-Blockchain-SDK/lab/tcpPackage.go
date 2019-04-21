@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/binary"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -56,7 +55,7 @@ func (p *Package) Unpack(reader io.Reader) error {
 }
 
 func (p *Package) String() string {
-	return fmt.Sprintf("version:%s length:%d timestamp:%d hostname:%s tag:%s msg:%s",
+	return log.Sprintf("version:%s length:%d timestamp:%d hostname:%s tag:%s msg:%s",
 		p.Version,
 		p.Length,
 		p.Timestamp,
